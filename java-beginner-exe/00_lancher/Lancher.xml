@@ -3,7 +3,7 @@
   <dontWrapJar>true</dontWrapJar>
   <headerType>gui</headerType>
   <jar>Lancher.jar</jar>
-  <outfile>C:\Users\ogin1\IdeaProjects\java-beginner-tasks\java-beginner-exe\lancher\Lancher.exe</outfile>
+  <outfile>C:\Users\ogin1\IdeaProjects\java-beginner-tasks\java-beginner-exe\00_lancher\Lancher.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>

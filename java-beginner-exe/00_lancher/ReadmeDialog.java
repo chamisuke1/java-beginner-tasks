@@ -29,6 +29,15 @@ public class ReadmeDialog extends JDialog {
         JScrollPane scroll = new JScrollPane(textArea);
         add(scroll, BorderLayout.CENTER);
 
+        // 表示時にスクロールを一番上にする（表示後に確実に実行するため invokeLater を使う）
+        SwingUtilities.invokeLater(() -> {
+            textArea.setCaretPosition(0);
+            JScrollBar vs = scroll.getVerticalScrollBar();
+            if (vs != null) {
+                vs.setValue(vs.getMinimum());
+            }
+        });
+
         JPanel buttons = new JPanel();
         JButton close = new JButton("閉じる");
         close.addActionListener(e -> dispose());
@@ -60,13 +69,8 @@ public class ReadmeDialog extends JDialog {
         } catch (Exception ignored) {
         }
 
-        // 3) ソース内に埋めたフォールバックを返す
-        if (README_FALLBACK != null && !README_FALLBACK.isBlank()) {
-            return README_FALLBACK;
-        }
-
-        // 見つからなければ案内メッセージ
-        return "説明ファイルが見つかりません。jar に `/readme.txt` を含めるか、`README_FALLBACK` を埋め込んでください。";
+        // 3) ソース内に埋めたフォールバックを返す（定数なのでそのまま返す）
+        return README_FALLBACK;
     }
 
     public static void showReadme(JFrame parent) {

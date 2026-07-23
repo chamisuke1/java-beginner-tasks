@@ -1,13 +1,13 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import javax.swing.*;
 
 public class Lancher extends JFrame implements ActionListener {
     public Lancher() {
         setTitle("Java課題ランチャー");
         setSize(400, 300);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         Task[] tasks = Task.values();
         int taskCount = tasks.length;
         setLayout(new GridLayout(taskCount, 1));
