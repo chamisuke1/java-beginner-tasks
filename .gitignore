@@ -1,0 +1,23 @@
+# IDE metadata
+/.idea/
+**/.idea/
+*.iml
+
+# Java build output
+**/build/
+**/out/
+**/out_check/
+**/*.class
+
+# Launcher-local state
+/java-beginner-exe/00_lancher/lib/
+/java-beginner-exe/00_lancher/jre/
+/java-beginner-exe/00_lancher/jre_m/
+/java-beginner-exe/00_lancher/saved/
+/java-beginner-exe/00_lancher/temp/
+/java-beginner-exe/00_lancher/tmp.txt
+/java-beginner-exe/00_lancher/src/sources.txt
+
+# Launcher artifacts
+/java-beginner-exe/00_lancher/*.exe
+/java-beginner-exe/00_lancher/*.jar

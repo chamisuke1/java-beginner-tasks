@@ -1,15 +1,15 @@
-// java
-import javax.swing.*;
+package launcher;
+
 import java.awt.*;
-import java.io.InputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.io.File;
-import java.net.URL;
+import javax.swing.*;
 
 public class ReadmeDialog extends JDialog {
-    // 埋め込み版（必要ならここにreadmeの全文を入れる）
     private static final String README_FALLBACK = """
         ここに README の内容を直接書くか、ビルド時に resource として追加してください。
         複数行の文章をそのまま埋め込めます。
@@ -29,7 +29,6 @@ public class ReadmeDialog extends JDialog {
         JScrollPane scroll = new JScrollPane(textArea);
         add(scroll, BorderLayout.CENTER);
 
-        // 表示時にスクロールを一番上にする（表示後に確実に実行するため invokeLater を使う）
         SwingUtilities.invokeLater(() -> {
             textArea.setCaretPosition(0);
             JScrollBar vs = scroll.getVerticalScrollBar();
@@ -49,7 +48,6 @@ public class ReadmeDialog extends JDialog {
     }
 
     private static String loadReadme() {
-        // 1) クラスパス上のリソースを試す（jar に /readme.txt を入れる）
         try (InputStream in = ReadmeDialog.class.getResourceAsStream("/readme.txt")) {
             if (in != null) {
                 return new String(in.readAllBytes(), StandardCharsets.UTF_8);
@@ -57,7 +55,6 @@ public class ReadmeDialog extends JDialog {
         } catch (IOException ignored) {
         }
 
-        // 2) JAR と同じフォルダにあるファイルを試す（従来の外部ファイル互換）
         try {
             URL loc = ReadmeDialog.class.getProtectionDomain().getCodeSource().getLocation();
             File code = new File(loc.toURI());
@@ -69,7 +66,25 @@ public class ReadmeDialog extends JDialog {
         } catch (Exception ignored) {
         }
 
-        // 3) ソース内に埋めたフォールバックを返す（定数なのでそのまま返す）
+        // ワーキングディレクトリから readme.txt を探す
+        try {
+            File f = new File("readme.txt");
+            if (f.exists()) {
+                return Files.readString(f.toPath(), StandardCharsets.UTF_8);
+            }
+            // ワーキングディレクトリが 00_lancher の親の場合
+            f = new File("00_lancher/readme.txt");
+            if (f.exists()) {
+                return Files.readString(f.toPath(), StandardCharsets.UTF_8);
+            }
+            // build フォルダ内で実行されている可能性
+            f = new File("../readme.txt");
+            if (f.exists()) {
+                return Files.readString(f.toPath(), StandardCharsets.UTF_8);
+            }
+        } catch (Exception ignored) {
+        }
+
         return README_FALLBACK;
     }
 
